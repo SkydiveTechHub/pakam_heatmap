@@ -12,7 +12,7 @@ type MapProps = {
 
 const containerStyle = {
   width: "100%",
-  height: "600px",
+  height: "100vh",
 };
 
 const Map: React.FC<MapProps> = ({ center, zoom, data, colorList }) => {

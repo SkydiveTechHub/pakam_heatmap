@@ -92,7 +92,7 @@ export default function Home() {
     } else {
       fetchData(null);
     }
-  }, [selectedCategory, startDate, endDate]);
+  }, [selectedCategory]);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory((prev) => (prev === category ? null : category));
@@ -203,7 +203,10 @@ export default function Home() {
       </div>
 
       {/* Map Component */}
-      <Map center={{ lat: 6.5244, lng: 3.3792 }} zoom={12} data={data} colorList={colorList} />
+      <div  onClick={() => setShowLegend(false)}>
+        <Map center={{ lat: 6.5244, lng: 3.3792 }} zoom={12} data={data} colorList={colorList} />
+      </div>
+
     </main>
   );
 }

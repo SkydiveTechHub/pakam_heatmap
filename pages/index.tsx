@@ -3,11 +3,9 @@ import { useLoadScript } from "@react-google-maps/api";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { generateColors } from "../utils/helper";
-// import Map from "../components/Map";
-// import Map from "../components/Map";
 
 // Dynamically import the Map component to prevent SSR issues
-const Map = dynamic(() => import("../components/Map"), { ssr: false });
+const Map = dynamic(() => import("../components/MapView"), { ssr: false });
 
 export default function Home() {
   const [data, setData] = useState([]);

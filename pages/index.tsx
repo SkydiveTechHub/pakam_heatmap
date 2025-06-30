@@ -3,6 +3,7 @@ import { useLoadScript } from "@react-google-maps/api";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { generateColors } from "../utils/helper";
+import Loader from "../components/Loader";
 
 // Dynamically import the Map component to prevent SSR issues
 const Map = dynamic(() => import("../components/MapView"), { ssr: false });
@@ -12,6 +13,10 @@ export default function Home() {
   const [materials, setMaterials] = useState<{ name: string; value: string }[]>([]);
   const [colorList, setColorList] = useState<Record<string, string>>({});
   const [showLegend, setShowLegend] = useState(false);
+  const [startDate, setStartDate] = useState("2025-01-01");
+  const [endDate, setEndDate] = useState("2025-12-30");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
@@ -19,6 +24,9 @@ export default function Home() {
   });
 
   useEffect(() => {
+
+    setSelectedCategory(materials[0]?.name || null);
+    
     const colors = generateColors(materials.length);
 
     const cList = materials.reduce((acc, material, index) => {
@@ -49,15 +57,20 @@ export default function Home() {
     }
   };
 
-  const fetchData = async () => {
+  const fetchData = async (category: string | null) => {
+    setIsLoading(true);
     try {
       const res = await fetch(
-        "https://beta.pakam.ng/collector/api/v2/heatmap/transactions?startDate=2025-01-01&endDate=2025-06-30&state=Lagos&minWeight=10&maxWeight=1000"
+        `https://beta.pakam.ng/collector/api/v2/heatmap/transactions?startDate=${startDate}&endDate=${endDate}&state=Lagos&categoryName=${
+        category ? `${encodeURIComponent(category)}` : ""}`
       );
+
+      console.log(res)
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
       const result = await res.json();
+      console.log(result);
       setData(
         result.data.map((item: any) => ({
           lat: item._id.lat,
@@ -70,10 +83,23 @@ export default function Home() {
     } catch (error) {
       console.error("Error fetching heatmap data:", error);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    fetchData();
+    if (selectedCategory) {
+      fetchData(selectedCategory);
+    } else {
+      fetchData(null);
+    }
+  }, [selectedCategory, startDate, endDate]);
+
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory((prev) => (prev === category ? null : category));
+  };
+
+  useEffect(() => {
+    fetchData(selectedCategory || null);
     fetchCatItems();
   }, []);
 
@@ -81,8 +107,38 @@ export default function Home() {
   if (!isLoaded) return <div>Loading map...</div>;
 
   return (
-    <main style={{ position: "relative", height: "100vh" }}>
-      {/* Toggleable Legend Dropdown */}
+<main style={{ position: "relative", height: "100vh" }}>
+  { isLoading && <Loader /> }
+      {/* Date Filter */}
+      <div style={{ position: "absolute", top: 20, right: 20, zIndex: 10 }}>
+        <input
+          type="date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          style={{ marginRight: "8px", padding: "4px" }}
+        />
+        <input
+          type="date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+          style={{ marginRight: "8px", padding: "4px" }}
+        />
+        <button
+          onClick={() => fetchData(selectedCategory || null)}
+          style={{
+            padding: "6px 12px",
+            backgroundColor: "#28a745",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        >
+          Filter
+        </button>
+      </div>
+
+      {/* Legend Dropdown */}
       <div style={{ position: "absolute", top: 20, left: 20, zIndex: 10 }}>
         <button
           onClick={() => setShowLegend((prev) => !prev)}
@@ -119,12 +175,16 @@ export default function Home() {
             {Object.entries(colorList).map(([material, color]) => (
               <div
                 key={material}
+                onClick={() => handleCategoryClick(material)}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
                   padding: "4px 8px",
                   borderRadius: "4px",
                   gap: "8px",
+                  cursor: "pointer",
+                  backgroundColor: selectedCategory === material ? "#f0f0f0" : "transparent",
+                  border: selectedCategory === material ? "1px solid #007BFF" : "none",
                 }}
               >
                 <div
@@ -133,7 +193,6 @@ export default function Home() {
                     width: "16px",
                     height: "16px",
                     borderRadius: "50%",
-                    display: "inline-block",
                   }}
                 ></div>
                 <span style={{ fontSize: "12px" }}>{material}</span>
@@ -143,8 +202,11 @@ export default function Home() {
         )}
       </div>
 
-      {/* Google Map */}
+      {/* Map Component */}
       <Map center={{ lat: 6.5244, lng: 3.3792 }} zoom={12} data={data} colorList={colorList} />
     </main>
   );
 }
+
+
+

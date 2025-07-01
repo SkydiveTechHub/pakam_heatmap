@@ -25,7 +25,7 @@ export default function Home() {
 
   useEffect(() => {
 
-    setSelectedCategory(materials[0]?.name || null);
+    setSelectedCategory(materials[10]?.name || null);
     
     const colors = generateColors(materials.length);
 
@@ -65,7 +65,6 @@ export default function Home() {
         category ? `${encodeURIComponent(category)}` : ""}`
       );
 
-      console.log(res)
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
@@ -89,9 +88,7 @@ export default function Home() {
   useEffect(() => {
     if (selectedCategory) {
       fetchData(selectedCategory);
-    } else {
-      fetchData(null);
-    }
+    } 
   }, [selectedCategory]);
 
   const handleCategoryClick = (category: string) => {
@@ -99,7 +96,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetchData(selectedCategory || null);
+    // fetchData(selectedCategory || null);
     fetchCatItems();
   }, []);
 
@@ -110,7 +107,7 @@ export default function Home() {
 <main style={{ position: "relative", height: "100vh" }}>
   { isLoading && <Loader /> }
       {/* Date Filter */}
-      <div style={{ position: "absolute", top: 20, right: 20, zIndex: 10 }}>
+      <div className="date-filter">
         <input
           type="date"
           value={startDate}
@@ -139,67 +136,73 @@ export default function Home() {
       </div>
 
       {/* Legend Dropdown */}
-      <div style={{ position: "absolute", top: 20, left: 20, zIndex: 10 }}>
-        <button
-          onClick={() => setShowLegend((prev) => !prev)}
-          style={{
-            padding: "8px 12px",
-            backgroundColor: "#007BFF",
-            color: "#fff",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-            fontSize: "14px",
-            boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
-          }}
-        >
-          {showLegend ? "Hide Legend" : "Show Legend"}
-        </button>
-
-        {showLegend && Object.keys(colorList).length > 0 && (
-          <div
+      <div style={{ position: "absolute", top: 20, left: 20, zIndex: 10, display: "flex", justifyContent: "space-between", width: "90%", gap: "10px" }}>
+        <div>
+          <button
+            onClick={() => setShowLegend((prev) => !prev)}
             style={{
-              marginTop: "10px",
-              backgroundColor: "white",
-              borderRadius: "8px",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-              padding: "12px",
-              maxWidth: "300px",
-              maxHeight: "80vh",
-              overflowY: "auto",
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "10px",
+              padding: "8px 12px",
+              backgroundColor: "#007BFF",
+              color: "#fff",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+              fontSize: "14px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
             }}
           >
-            {Object.entries(colorList).map(([material, color]) => (
-              <div
-                key={material}
-                onClick={() => handleCategoryClick(material)}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  padding: "4px 8px",
-                  borderRadius: "4px",
-                  gap: "8px",
-                  cursor: "pointer",
-                  backgroundColor: selectedCategory === material ? "#f0f0f0" : "transparent",
-                  border: selectedCategory === material ? "1px solid #007BFF" : "none",
-                }}
-              >
+            {showLegend ? "Hide Legend" : "Show Legend"}
+          </button>
+
+          {showLegend && Object.keys(colorList).length > 0 && (
+            <div
+              style={{
+                marginTop: "10px",
+                backgroundColor: "white",
+                borderRadius: "8px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                padding: "12px",
+                maxWidth: "300px",
+                maxHeight: "80vh",
+                overflowY: "auto",
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "10px",
+              }}
+            >
+              {Object.entries(colorList).map(([material, color]) => (
                 <div
+                  key={material}
+                  onClick={() => handleCategoryClick(material)}
                   style={{
-                    backgroundColor: color,
-                    width: "16px",
-                    height: "16px",
-                    borderRadius: "50%",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    padding: "4px 8px",
+                    borderRadius: "4px",
+                    gap: "8px",
+                    cursor: "pointer",
+                    backgroundColor: selectedCategory === material ? "#f0f0f0" : "transparent",
+                    border: selectedCategory === material ? "1px solid #007BFF" : "none",
                   }}
-                ></div>
-                <span style={{ fontSize: "12px" }}>{material}</span>
-              </div>
-            ))}
+                >
+                  <div
+                    style={{
+                      backgroundColor: color,
+                      width: "16px",
+                      height: "16px",
+                      borderRadius: "50%",
+                    }}
+                  ></div>
+                  <span style={{ fontSize: "12px" }}>{material}</span>
+                </div>
+              ))}
           </div>
         )}
+      </div>
+      <div>
+        <span style={{backgroundColor:'white', padding: '4px 8px', border: '1px solid #000', borderRadius: '4px'}}>{selectedCategory} </span>
+      </div>
+        
       </div>
 
       {/* Map Component */}

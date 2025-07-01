@@ -69,7 +69,6 @@ export default function Home() {
         throw new Error("Network response was not ok");
       }
       const result = await res.json();
-      console.log(result);
       setData(
         result.data.map((item: any) => ({
           lat: item._id.lat,
@@ -83,6 +82,7 @@ export default function Home() {
       console.error("Error fetching heatmap data:", error);
     }
     setIsLoading(false);
+    setShowLegend(false)
   };
 
   useEffect(() => {

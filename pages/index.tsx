@@ -76,6 +76,7 @@ export default function Home() {
           material: item._id.material,
           weight: item.quantity,
           address: item._id.address,
+          lcda: item._id.lcd,
         }))
       );
     } catch (error) {

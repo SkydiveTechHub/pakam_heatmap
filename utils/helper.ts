@@ -12,3 +12,6 @@ export function generateColors(count: number): string[] {
 
   return colors;
 }
+
+
+

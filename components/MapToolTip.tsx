@@ -10,7 +10,7 @@ type MapTooltipProps = {
     lcda?: string;
   user_name?:string |undefined;
   user_phone?:string
-  schedule_date:string
+  schedule_date?:string
 };
 
 const MapTooltip: React.FC<MapTooltipProps> = ({ x, y, material, address, weight, lcda, user_name, user_phone, schedule_date }) => {
@@ -44,7 +44,8 @@ const MapTooltip: React.FC<MapTooltipProps> = ({ x, y, material, address, weight
       <div className="text-gray-600"><span style={{fontWeight: "bold"}}>Address:</span> {address}</div>
       <div className="text-gray-600"><span style={{fontWeight: "bold"}}>Phone:</span> {user_phone}</div>
       <div className="text-gray-500"><span style={{fontWeight: "bold"}}>LCDA:</span> {lcda}</div>
-      <div className="text-gray-500"><span style={{fontWeight: "bold"}}>Schedule On:</span> {schedule_date.split("T")[0]}</div>
+      {scheduleDate && <div className="text-gray-500"><span style={{fontWeight: "bold"}}>Schedule On:</span> {schedule_date?.split("T")[0]}</div>}
+      
     </div>
   );
 };

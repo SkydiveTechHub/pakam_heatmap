@@ -77,6 +77,9 @@ export default function Home() {
           weight: item.quantity,
           address: item._id.address,
           lcda: item._id.lcd,
+          user_name:item?.fullname,
+          user_phone:item?.phone
+          
         }))
       );
     } catch (error) {

@@ -8,8 +8,8 @@ type MapTooltipProps = {
   address: string;
   weight?: number;
     lcda?: string;
-  user_name:string;
-  user_phone:string
+  user_name?:string |undefined;
+  user_phone?:string
 };
 
 const MapTooltip: React.FC<MapTooltipProps> = ({ x, y, material, address, weight, lcda, user_name, user_phone }) => {

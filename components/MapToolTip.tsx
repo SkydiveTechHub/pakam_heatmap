@@ -27,7 +27,7 @@ const MapTooltip: React.FC<MapTooltipProps> = ({ x, y, material, address, weight
         borderRadius: "8px",
         padding: "8px",
         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-        width: "300px",
+        width: "350px",
         // textAlign: "center",
         fontSize: "0.875rem",
         lineHeight: "1.25rem",
@@ -44,7 +44,7 @@ const MapTooltip: React.FC<MapTooltipProps> = ({ x, y, material, address, weight
       <div className="text-gray-600"><span style={{fontWeight: "bold"}}>Address:</span> {address}</div>
       <div className="text-gray-600"><span style={{fontWeight: "bold"}}>Phone:</span> {user_phone}</div>
       <div className="text-gray-500"><span style={{fontWeight: "bold"}}>LCDA:</span> {lcda}</div>
-      {schedule_date && <div className="text-gray-500"><span style={{fontWeight: "bold"}}>Schedule On:</span> {schedule_date?.split("T")[0]}</div>}
+      {schedule_date && <div className="text-gray-500"><span style={{fontWeight: "bold"}}>Last Schedule Date:</span> {schedule_date?.split("T")[0]}</div>}
       
     </div>
   );

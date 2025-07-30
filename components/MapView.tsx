@@ -8,7 +8,7 @@ type MapProps = {
   center: { lat: number; lng: number };
   zoom: number;
   colorList: any;
-  data: Array<{ lat: number; lng: number; material: string; address: string; weight?: number, lcda?: string, user_name?:string|undefined, user_phone?:string, schedule_date?string }>;
+  data: Array<{ lat: number; lng: number; material: string; address: string; weight?: number, lcda?: string, user_name?:string|undefined, user_phone?:string, schedule_date?:string }>;
 };
 
 const containerStyle = {

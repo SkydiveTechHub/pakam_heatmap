@@ -12,7 +12,7 @@ type MapTooltipProps = {
   user_phone:string
 };
 
-const MapTooltip: React.FC<MapTooltipProps> = ({ x, y, material, address, weight, lcda }) => {
+const MapTooltip: React.FC<MapTooltipProps> = ({ x, y, material, address, weight, lcda, user_name, user_phone }) => {
   return (
     <div
       className="absolute bg-white shadow-xl rounded-lg p-4 text-sm z-50 transition-opacity duration-200"

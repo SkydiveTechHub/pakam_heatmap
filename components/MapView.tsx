@@ -124,8 +124,8 @@ const handleMouseOver = (location: typeof data[0]) => {
                 address={location.address}
                 weight={location.weight}
                 lcda={location.lcda}
-                user_name={location.user_name}
-                user_phone={location.user_phone}
+                user_name={location?.user_name}
+                user_phone={location?.user_phone}
               />
             )}         
           </div>

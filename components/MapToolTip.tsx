@@ -8,6 +8,8 @@ type MapTooltipProps = {
   address: string;
   weight?: number;
     lcda?: string;
+  user_name:string;
+  user_phone:string
 };
 
 const MapTooltip: React.FC<MapTooltipProps> = ({ x, y, material, address, weight, lcda }) => {
@@ -37,7 +39,9 @@ const MapTooltip: React.FC<MapTooltipProps> = ({ x, y, material, address, weight
     >
       <div className="font-bold text-gray-800"><span style={{fontWeight: "bold"}}>Name:</span> {material}</div>
       <div className="text-gray-500"><span style={{fontWeight: "bold"}}>Weight:</span> {weight || 0} kg</div>
+      {user_name && <div className="text-gray-600"><span style={{fontWeight: "bold"}}>Customer Name:</span> {user_name}</div>}
       <div className="text-gray-600"><span style={{fontWeight: "bold"}}>Address:</span> {address}</div>
+      <div className="text-gray-600"><span style={{fontWeight: "bold"}}>Phone:</span> {user_phone}</div>
       <div className="text-gray-500"><span style={{fontWeight: "bold"}}>LCDA:</span> {lcda}</div>
     </div>
   );

@@ -127,7 +127,7 @@ const handleMouseOver = (location: typeof data[0]) => {
                 lcda={location.lcda}
                 user_name={location?.user_name}
                 user_phone={location?.user_phone}
-                scheduleDate= {location.schedule_date}
+                schedule_date= {location.schedule_date}
               />
             )}         
           </div>

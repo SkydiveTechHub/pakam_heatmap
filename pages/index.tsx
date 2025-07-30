@@ -79,7 +79,7 @@ export default function Home() {
           lcda: item._id.lcd,
           user_name:item._id?.fullname,
           user_phone:item._id?.phone
-          
+          schedule_data:item._id?.scheduleDate
         }))
       );
     } catch (error) {

@@ -8,7 +8,7 @@ type MapProps = {
   center: { lat: number; lng: number };
   zoom: number;
   colorList: any;
-  data: Array<{ lat: number; lng: number; material: string; address: string; weight?: number, lcda?: string, user_name?:string|undefined, user_phone?:string }>;
+  data: Array<{ lat: number; lng: number; material: string; address: string; weight?: number, lcda?: string, user_name?:string|undefined, user_phone?:string, schedule_date:string }>;
 };
 
 const containerStyle = {
@@ -27,6 +27,7 @@ const Map: React.FC<MapProps> = ({ center, zoom, data, colorList }) => {
     lcda?: string;
     user_name?:string;
     user_phone?:string;
+    schedule_date:string
   } | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState<{ x: number; y: number } | null>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -126,6 +127,7 @@ const handleMouseOver = (location: typeof data[0]) => {
                 lcda={location.lcda}
                 user_name={location?.user_name}
                 user_phone={location?.user_phone}
+                scheduleDate= {location.schedule_date}
               />
             )}         
           </div>
